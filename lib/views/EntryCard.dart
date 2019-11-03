@@ -2,6 +2,8 @@ import 'package:diastore_flutter/model/Entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'EntryDetailsScreen.dart';
+
 class EntryCard extends StatelessWidget {
   final Entry entry;
   final Function onCloseTap;
@@ -15,7 +17,13 @@ class EntryCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Card(
         child: InkWell(
-          onTap: () => print(entry.bloodSugarLevel),
+          onTap: () =>
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EntryDetailsState(entry),
+              ),
+            ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
