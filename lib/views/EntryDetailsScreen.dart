@@ -1,6 +1,7 @@
 import 'package:diastore_flutter/model/Entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class EntryDetailsState extends StatefulWidget {
   final Entry entry;
@@ -13,6 +14,7 @@ class EntryDetailsState extends StatefulWidget {
 
 class EntryDetailsScreen extends State<EntryDetailsState> {
   Entry entry;
+  String entryId;
   int _entryTimeRadioValue = -1;
   int _mealTypeRadioValue = -1;
   final _bloodSugarController = TextEditingController();
@@ -26,34 +28,39 @@ class EntryDetailsScreen extends State<EntryDetailsState> {
   void initState() {
     super.initState();
 
-    _bloodSugarController.text = entry.bloodSugarLevel.toString();
-    _carbsController.text = entry.carbohydratesIntake.toString();
-    _insulinController.text = entry.insulinIntake.toString();
-    _physicalActivityController.text =
-        entry.physicalActivityDuration.toString();
+    if (entry != null) {
+      entryId = entry.id;
+      _bloodSugarController.text = entry.bloodSugarLevel.toString();
+      _carbsController.text = entry.carbohydratesIntake.toString();
+      _insulinController.text = entry.insulinIntake.toString();
+      _physicalActivityController.text =
+          entry.physicalActivityDuration.toString();
 
-    switch (entry.entryMomentSpecifier) {
-      case MomentSpecifier.BEFORE_MEAL:
-        _entryTimeRadioValue = 0;
-        break;
-      case MomentSpecifier.AFTER_MEAL:
-        _entryTimeRadioValue = 1;
-        break;
-    }
+      switch (entry.entryMomentSpecifier) {
+        case MomentSpecifier.BEFORE_MEAL:
+          _entryTimeRadioValue = 0;
+          break;
+        case MomentSpecifier.AFTER_MEAL:
+          _entryTimeRadioValue = 1;
+          break;
+      }
 
-    switch (entry.mealTypeSpecifier) {
-      case MealTypeSpecifier.BREAKFAST:
-        _mealTypeRadioValue = 0;
-        break;
-      case MealTypeSpecifier.LUNCH:
-        _mealTypeRadioValue = 1;
-        break;
-      case MealTypeSpecifier.DINNER:
-        _mealTypeRadioValue = 2;
-        break;
-      case MealTypeSpecifier.SNACK:
-        _mealTypeRadioValue = 3;
-        break;
+      switch (entry.mealTypeSpecifier) {
+        case MealTypeSpecifier.BREAKFAST:
+          _mealTypeRadioValue = 0;
+          break;
+        case MealTypeSpecifier.LUNCH:
+          _mealTypeRadioValue = 1;
+          break;
+        case MealTypeSpecifier.DINNER:
+          _mealTypeRadioValue = 2;
+          break;
+        case MealTypeSpecifier.SNACK:
+          _mealTypeRadioValue = 3;
+          break;
+      }
+    }else {
+      entryId = Uuid().v1();
     }
   }
 
@@ -269,17 +276,18 @@ class EntryDetailsScreen extends State<EntryDetailsState> {
     var insulin = _insulinController.text;
     var sport = _physicalActivityController.text;
     Entry entry = Entry(
-        this.entry.id,
+        entryId,
         int.parse(bs),
         int.parse(carbs),
         double.parse(insulin),
-        this.entry.entryTime,
-        this.entry.entryHour,
+        "7:00",
+        "10/10/10",
         int.parse(sport),
         getEntryTime(),
         getMealType());
     print(
         "Bs: $bs\nCarbs: $carbs\nInsulin: $insulin\nSport: $sport\nEntry time: ${getEntryTime()}\nMeal type: ${getMealType()}\n");
     print(entry.bloodSugarLevel);
+    Navigator.pop(context);
   }
 }
