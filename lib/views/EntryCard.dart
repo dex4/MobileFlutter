@@ -2,13 +2,14 @@ import 'package:diastore_flutter/model/Entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'EntryDetailsScreen.dart';
+import '../feature/details/EntryDetailsScreen.dart';
 
 class EntryCard extends StatelessWidget {
   final Entry entry;
   final Function onCloseTap;
+  final Function detailsCallback;
 
-  EntryCard(this.entry, this.onCloseTap);
+  EntryCard(this.entry, this.onCloseTap, this.detailsCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class EntryCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EntryDetailsState(entry),
+                builder: (context) => EntryDetailsState(entry, detailsCallback),
               ),
             ),
           child: Padding(

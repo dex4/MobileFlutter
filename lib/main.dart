@@ -1,13 +1,10 @@
-import 'package:diastore_flutter/views/EntriesList.dart';
+import 'package:diastore_flutter/feature/entrieslist/EntriesList.dart';
 import 'package:flutter/material.dart';
 
-import 'model/Entry.dart';
-
-void main() => runApp(MyApp(null));
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final Entry entry;
-  MyApp(this.entry);
+  MyApp();
 
   @override
   Widget build(BuildContext context) {

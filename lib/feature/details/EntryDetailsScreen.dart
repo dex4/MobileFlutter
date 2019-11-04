@@ -5,16 +5,18 @@ import 'package:uuid/uuid.dart';
 
 class EntryDetailsState extends StatefulWidget {
   final Entry entry;
+  final Function callback;
 
-  EntryDetailsState(this.entry);
+  EntryDetailsState(this.entry, this.callback);
 
   @override
-  EntryDetailsScreen createState() => new EntryDetailsScreen(entry);
+  EntryDetailsScreen createState() => new EntryDetailsScreen(entry, callback);
 }
 
 class EntryDetailsScreen extends State<EntryDetailsState> {
   Entry entry;
   String entryId;
+  Function callback;
   int _entryTimeRadioValue = -1;
   int _mealTypeRadioValue = -1;
   final _bloodSugarController = TextEditingController();
@@ -22,7 +24,7 @@ class EntryDetailsScreen extends State<EntryDetailsState> {
   final _insulinController = TextEditingController();
   final _physicalActivityController = TextEditingController();
 
-  EntryDetailsScreen(this.entry);
+  EntryDetailsScreen(this.entry, this.callback);
 
   @override
   void initState() {
@@ -288,6 +290,7 @@ class EntryDetailsScreen extends State<EntryDetailsState> {
     print(
         "Bs: $bs\nCarbs: $carbs\nInsulin: $insulin\nSport: $sport\nEntry time: ${getEntryTime()}\nMeal type: ${getMealType()}\n");
     print(entry.bloodSugarLevel);
+    this.callback(entry);
     Navigator.pop(context);
   }
 }

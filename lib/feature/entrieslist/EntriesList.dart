@@ -1,3 +1,4 @@
+import 'package:diastore_flutter/feature/details/EntryDetailsScreen.dart';
 import 'package:diastore_flutter/model/Entry.dart';
 import 'package:diastore_flutter/views/EntryCard.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,15 +28,56 @@ class EntriesState extends State<Entries> {
 
   @override
   Widget build(BuildContext context) {
-    return  _buildSuggestions();
+    return Scaffold(
+      floatingActionButton:
+          FloatingActionButton(onPressed: onFloatingActionButtonPressed, child: Icon(Icons.add)),
+      body: buildEntriesList(),
+    );
   }
 
-  Widget _buildSuggestions() {
+  Widget buildEntriesList() {
     return ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemCount: entries.length,
         itemBuilder: (BuildContext _context, int i) {
-          return EntryCard(entries[i], () => setState(() { entries.removeAt(i);}));
+          return EntryCard(
+              entries[i],
+              () => setState(() {
+                    entries.removeAt(i);
+                  }),
+              (Entry entry) => setState(() {
+                    onReceivedEntry(entry);
+                  }));
         });
+  }
+
+  void onReceivedEntry(Entry entry) {
+    bool isUpdatedEntry = false;
+    int index = -1;
+    for (int i = 0; i < entries.length; i++) {
+      if (entries[i].id == entry.id) {
+        isUpdatedEntry = true;
+        index = i;
+        break;
+      }
+    }
+    if (isUpdatedEntry) {
+      entries[index] = entry;
+    } else {
+      entries.add(entry);
+    }
+  }
+
+  void onFloatingActionButtonPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EntryDetailsState(
+            null,
+            (Entry entry) => setState(() {
+                  onReceivedEntry(entry);
+                })),
+      ),
+    );
   }
 }
