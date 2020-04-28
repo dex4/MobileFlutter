@@ -1,4 +1,3 @@
-
 class Entry {
   String id;
   int bloodSugarLevel;
@@ -7,17 +6,37 @@ class Entry {
   String entryTime;
   String entryHour;
   int physicalActivityDuration;
-  MomentSpecifier entryMomentSpecifier;
-  MealTypeSpecifier mealTypeSpecifier;
+  String entryMomentSpecifier;
+  String mealTypeSpecifier;
 
-  Entry(this.id, this.bloodSugarLevel, this.carbohydratesIntake,
-      this.insulinIntake, this.entryTime, this.entryHour,
-      this.physicalActivityDuration, this.entryMomentSpecifier,
+  Entry(
+      this.id,
+      this.bloodSugarLevel,
+      this.carbohydratesIntake,
+      this.insulinIntake,
+      this.entryTime,
+      this.entryHour,
+      this.physicalActivityDuration,
+      this.entryMomentSpecifier,
       this.mealTypeSpecifier);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'bloodSugarLevel': bloodSugarLevel,
+      'carbohydratesIntake': carbohydratesIntake,
+      'insulinIntake': insulinIntake,
+      'entryTime': entryTime,
+      'entryHour': entryHour,
+      'physicalActivityDuration': physicalActivityDuration,
+      'entryMomentSpecifier': entryMomentSpecifier,
+      'mealTypeSpecifier': mealTypeSpecifier,
+    };
+  }
 
   String getMomentString() {
     var momentString = "";
-    switch (entryMomentSpecifier) {
+    switch (entryMomentSpecifier.toString()) {
       case MomentSpecifier.BEFORE_MEAL:
         momentString += "Before ";
         break;
@@ -44,6 +63,14 @@ class Entry {
   }
 }
 
-enum MomentSpecifier { BEFORE_MEAL, AFTER_MEAL }
+class MomentSpecifier {
+  static const BEFORE_MEAL = "BEFORE_MEAL";
+  static const AFTER_MEAL = "AFTER_MEAL";
+}
 
-enum MealTypeSpecifier { BREAKFAST, LUNCH, DINNER, SNACK }
+class MealTypeSpecifier {
+  static const BREAKFAST = "BREAKFAST";
+  static const LUNCH = "LUNCH";
+  static const DINNER = "DINNER";
+  static const SNACK = "SNACK";
+}

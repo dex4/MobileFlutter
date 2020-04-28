@@ -240,8 +240,8 @@ class EntryDetailsScreen extends State<EntryDetailsState> {
     });
   }
 
-  MomentSpecifier getEntryTime() {
-    MomentSpecifier et;
+  String getEntryTime() {
+    String et;
     switch (_entryTimeRadioValue) {
       case 0:
         et = MomentSpecifier.BEFORE_MEAL;
@@ -253,8 +253,8 @@ class EntryDetailsScreen extends State<EntryDetailsState> {
     return et;
   }
 
-  MealTypeSpecifier getMealType() {
-    MealTypeSpecifier mt;
+  String getMealType() {
+    String mt;
     switch (_mealTypeRadioValue) {
       case 0:
         mt = MealTypeSpecifier.BREAKFAST;
